@@ -1,6 +1,6 @@
 import express from "express";
 import helmet from "helmet";
-import pinoHttp from "pino-http";
+import { pinoHttp } from "pino-http";
 import type { RequestHandler } from "express";
 import { z } from "zod";
 import { config } from "./config.js";
