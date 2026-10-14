@@ -10,9 +10,10 @@ let paymentGate: RequestHandler | undefined;
 
 if (config.X402_ENABLED) {
   if (!config.X402_PAY_TO) throw new Error("X402_PAY_TO is required when X402_ENABLED=true");
+  const x402Network = config.X402_NETWORK as `${string}:${string}`;
   const facilitator = new HTTPFacilitatorClient({ url: config.X402_FACILITATOR_URL });
   const resourceServer = new x402ResourceServer(facilitator).register(
-    config.X402_NETWORK,
+    x402Network,
     new ExactSvmScheme()
   );
   paymentGate = paymentMiddleware({
@@ -20,7 +21,7 @@ if (config.X402_ENABLED) {
       accepts: [{
         scheme: "exact",
         price: config.X402_PRICE_USD,
-        network: config.X402_NETWORK,
+        network: x402Network,
         payTo: config.X402_PAY_TO
       }],
       description: "Fluxyy agent capabilities overview",
